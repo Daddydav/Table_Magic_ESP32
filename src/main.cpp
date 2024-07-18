@@ -76,8 +76,10 @@ void loop()
     //Serial.println(inc);
     inc++;
   }
-NEGATION[]
 
+if (uid[0][0] == NEGATION[0] && uid[0][1] == NEGATION[1] && uid[0][2] == NEGATION[2] && uid[0][3] == NEGATION[3]) {
+  Serial.println("The UIDs match.");
+}
   //MCP.write8(0,1);
 //  MCP.write1(RD_1, HIGH);
 //  delay(500);

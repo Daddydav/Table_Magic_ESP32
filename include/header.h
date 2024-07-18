@@ -29,7 +29,7 @@
 #define FIN         "64 D2 89 87" //7
 #define CONTROLE    "64 C6 DB 87" //8
 #define DEBUT       "64 BD BA 87" //9
-uint8_t  NEGATION[] = {0x64,0xB2,0x5A,0x87} //10
+uint8_t  NEGATION[] = {0x64,0xB2,0x5A,0x87}; //10
 #define TEMPS       "74 28 64 87" //11
 #define CREATURE    "74 33 FE 87" //12
 #define PROTECTION  "74 3F 7F 87" //13
