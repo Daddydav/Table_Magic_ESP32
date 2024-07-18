@@ -73,6 +73,7 @@ void loop()
         reader.PCD_StopCrypto1();
       }
     }
+    Serial.println(inc);
     inc++;
   }
 
