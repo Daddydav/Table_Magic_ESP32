@@ -51,8 +51,8 @@ void loop()
   // Look for new cards.
   inc = 0;
   for (MFRC522 reader : readers) {
-    if (reader.PICC_ReadCardSerial()) {
-      if (reader.PICC_IsNewCardPresent()) {
+    if (reader.PICC_IsNewCardPresent()) {
+      if (reader.PICC_ReadCardSerial()) {
         Serial.print(F("Reader "));
         Serial.print(inc+1);
         for (uint8_t i = 0; i < 4; i++) {
@@ -73,9 +73,10 @@ void loop()
         reader.PCD_StopCrypto1();
       }
     }
-    Serial.println(inc);
+    //Serial.println(inc);
     inc++;
   }
+NEGATION[]
 
   //MCP.write8(0,1);
 //  MCP.write1(RD_1, HIGH);
