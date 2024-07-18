@@ -13,6 +13,8 @@
 TwoWire I2CD = TwoWire(0);
 MCP23017 MCP(MCP23017_ADR, &I2CD);  // Adresse module ext
 
+bool new_RFID[] = {false,false,false,false,false};
+
 uint8_t uid[5][4]; // Array to store UID returned by RC522
 MFRC522DriverPinSimple ss1_pin(5), ss2_pin(5), ss3_pin(13), ss4_pin(18), ss5_pin(25); // Configurable, see typical pin layout above.
 
@@ -58,6 +60,7 @@ void loop()
         for (uint8_t i = 0; i < 4; i++) {
             uid[inc][i] = reader.uid.uidByte[i]; // Store each byte of the UID in the array
         }
+        new_RFID[inc] = true;
         // Show some details of the PICC (that is: the tag/card).
         Serial.print(F(": Card UID:"));
         MFRC522Debug::PrintUID(Serial, reader.uid);
@@ -71,15 +74,19 @@ void loop()
         reader.PICC_HaltA();
         // Stop encryption on PCD.
         reader.PCD_StopCrypto1();
-      }
-    }
+      } //test si lire
+    } //test si nouvelle present
     //Serial.println(inc);
     inc++;
-  }
+  } // for
 
-if (uid[0][0] == NEGATION[0] && uid[0][1] == NEGATION[1] && uid[0][2] == NEGATION[2] && uid[0][3] == NEGATION[3]) {
+if (new_RFID[0] && uid[0][0] == NEGATION[0] && uid[0][1] == NEGATION[1] && uid[0][2] == NEGATION[2] && uid[0][3] == NEGATION[3])
+{
   Serial.println("The UIDs match.");
+  new_RFID[0] = false;
 }
+
+
   //MCP.write8(0,1);
 //  MCP.write1(RD_1, HIGH);
 //  delay(500);
