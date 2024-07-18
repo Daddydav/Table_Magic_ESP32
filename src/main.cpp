@@ -10,8 +10,8 @@
 #include "MCP23017.h"
 #include "header.h"
 
-TwoWire I2C1 = TwoWire(0);
-MCP23017 MCP(MCP23017_ADR, &I2C1);  // Adresse module ext
+TwoWire I2CD = TwoWire(0);
+MCP23017 MCP(MCP23017_ADR, &I2CD);  // Adresse module ext
 
 uint8_t uid[5][4]; // Array to store UID returned by RC522
 MFRC522DriverPinSimple ss1_pin(5), ss2_pin(5), ss3_pin(13), ss4_pin(18), ss5_pin(25); // Configurable, see typical pin layout above.
@@ -27,9 +27,8 @@ void setup()
   Serial.begin(115200); // Initialize serial communications with the PC for debugging.
   while (!Serial)
     ;                                              // Do nothing if no serial port is opened (added for Arduinos based on ATMEGA32U4).
-  static 
 
-  I2C1.begin(I2C_SDA, I2C_SCL, I2C_Freq);
+  I2CD.begin(I2C_SDA, I2C_SCL, I2C_Freq);
 
   
   bool b = MCP.begin();
