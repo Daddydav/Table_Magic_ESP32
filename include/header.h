@@ -20,6 +20,10 @@
 #define GN_5 14 //PB6
 #define BE_5 15 //PB7
 
+int RD[] = {1,4,7,10,13}; //PA1,PA4,PA7,PB2,PB5
+int GN[] = {2,5,8,11,14}; //PA2,PA5,PB0,PB3,PB6
+int BE[] = {3,6,9,12,15}; //PA3,PA6,PB1,PB4,PB7
+
 uint8_t  FEU[] =        {0x74,0x16,0xC8,0x87}; //1
 uint8_t  AIR[] =        {0x74,0x0B,0x8B,0x87}; //2
 uint8_t  EAU[] =        {0x74,0x01,0xCA,0x87}; //3
