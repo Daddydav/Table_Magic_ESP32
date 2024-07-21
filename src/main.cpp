@@ -2,11 +2,11 @@
 #include <Wire.h>
 #include <MFRC522v2.h>
 #include <MFRC522DriverSPI.h>
-////#include <MFRC522DriverI2C.h>
+//// num_runelude <MFRC522DriverI2C.h>
 #include <MFRC522DriverPinSimple.h>
 #include <MFRC522Debug.h>
 
-////#include "RFID.h"
+//// num_runelude "RFID.h"
 #include "MCP23017.h"
 #include "header.h"
 #include "Quetes.h"
@@ -16,14 +16,51 @@ MCP23017 MCP(MCP23017_ADR, &I2CD);  //* Adresse module ext
 
 ////bool new_RFID[] = {false,false,false,false,false}, first_RFID[] = {false,false,false,false,false};
 ////int32_t test_card;
-
+bool win_quete[] = {false,false,false,false,false};
 ////uint8_t uid[5][4]; // Array to store UID returned by RC522
 MFRC522DriverPinSimple ss1_pin(5), ss2_pin(5), ss3_pin(13), ss4_pin(18), ss5_pin(25); // Configurable, see typical pin layout above.
 
 MFRC522DriverSPI driver_1{ss1_pin}, driver_2{ss2_pin}, driver_3{ss3_pin}, driver_4{ss4_pin}, driver_5{ss5_pin}; //Create SPI driver.
 
 MFRC522 readers[]{driver_1};   //, driver_2 Create MFRC522 instance.
-uint8_t inc = 0, num_Quetes = 0;
+uint8_t num_rune = 0, num_Quetes = 0;
+
+void aff_win(){
+  for (int i=0; i<5; i++){
+    MCP.write1(RD[i], LOW);
+    MCP.write1(GN[i], LOW);
+    MCP.write1(BE[i], LOW);
+  }
+  delay(100);
+  for (int i=0; i<5; i++){
+    MCP.write1(GN[i], HIGH);
+  }
+  delay(100);
+  for (int i=0; i<5; i++){
+    MCP.write1(BE[i], HIGH);
+  }
+  delay(100);
+  for (int i=0; i<5; i++){
+    MCP.write1(GN[i], LOW);
+  }
+  delay(100);
+  for (int i=0; i<5; i++){
+    MCP.write1(RD[i], HIGH);
+  }
+  delay(100);
+  for (int i=0; i<5; i++){
+    MCP.write1(BE[i], LOW);
+  }
+  delay(100);
+  for (int i=0; i<5; i++){
+    MCP.write1(GN[i], HIGH);
+  }
+  delay(100);
+  for (int i=0; i<5; i++){
+    MCP.write1(RD[i], LOW);
+  }
+  delay(100);
+}
 
 void setup()
 {
@@ -43,8 +80,8 @@ void setup()
   for (MFRC522 reader : readers) {
     reader.PCD_Init(); //* Init each MFRC522 card.
     Serial.print(F("Reader "));
-    inc++;
-    Serial.print(inc);
+    num_rune++;
+    Serial.print(num_rune);
     Serial.print(F(": "));
     MFRC522Debug::PCD_DumpVersionToSerial(reader, Serial);
   }
@@ -53,29 +90,34 @@ void setup()
 void loop()
 {
   // Look for new cards.
-  inc = 0;
+  num_rune = 0;
   for (MFRC522 reader : readers) {
     //static bool toto = reader.PICC_IsNewCardPresent();
     if (reader.PICC_IsNewCardPresent() && reader.PICC_ReadCardSerial()) {//
         Serial.print(F("Reader "));
-        Serial.println(inc+1);
-        ////first_RFID[inc] = true;
+        Serial.println(num_rune+1);
+        ////first_RFID num_rune] = true;
 
         ////for (uint8_t i = 0; i < 4; i++) {
-        ////    uid[inc][i] = reader.uid.uidByte[i]; // Store each byte of the UID in the array
+        ////    uid num_rune][i] = reader.uid.uidByte[i]; // Store each byte of the UID in the array
         ////}
-          if (reader.uid.uidByte[0] == NEGATION[0] && reader.uid.uidByte[1] == NEGATION[1] && reader.uid.uidByte[2] == NEGATION[2] && reader.uid.uidByte[3] == NEGATION[3])
+          if (     reader.uid.uidByte[0] == Quetes[num_Quetes].sort[num_rune][0] 
+                && reader.uid.uidByte[1] == Quetes[num_Quetes].sort[num_rune][1] 
+                && reader.uid.uidByte[2] == Quetes[num_Quetes].sort[num_rune][2] 
+                && reader.uid.uidByte[3] == Quetes[num_Quetes].sort[num_rune][3])
           {
             Serial.println("The UIDs match.");
-            MCP.write1(RD[inc], LOW);
-            MCP.write1(BE[inc], LOW);
-            MCP.write1(GN[inc], HIGH);
+            win_quete[num_rune] = true;
+            MCP.write1(RD[num_rune], LOW);
+            MCP.write1(GN[num_rune], HIGH);
+            MCP.write1(BE[num_rune], LOW);
           }
           else{
             Serial.println("The UIDs NO match.");
-            MCP.write1(GN[inc], LOW);
-            MCP.write1(BE[inc], LOW);
-            MCP.write1(RD[inc], HIGH);
+            win_quete[num_rune] = false;
+            MCP.write1(RD[num_rune], HIGH);
+            MCP.write1(GN[num_rune], LOW);
+            MCP.write1(BE[num_rune], LOW);
           }
 
         //* Show some details of the PICC (that is: the tag/card).
@@ -101,16 +143,30 @@ void loop()
       ////}
       
       else{
-        Serial.println("NO card");
-        MCP.write1(GN[0], LOW);
-        MCP.write1(RD[0], LOW);
-        MCP.write1(BE[0], HIGH);
+        if(Quetes[num_Quetes].rune[num_rune]){
+          Serial.println("NO card");
+          MCP.write1(RD[num_rune], LOW);
+          MCP.write1(GN[num_rune], LOW);
+          MCP.write1(BE[num_rune], HIGH);
+        }
+        else{
+          MCP.write1(RD[num_rune], LOW);
+          MCP.write1(GN[num_rune], LOW);
+          MCP.write1(BE[num_rune], LOW);
+        }
       }
       
     ////test si nouvelle present
-    ////Serial.println(inc);
-    ////new_RFID[inc] = reader.PICC_IsNewCardPresent();
-    inc++;
+    ////Serial.println num_rune);
+    ////new_RFID num_rune] = reader.PICC_IsNewCardPresent();
+    num_rune++;
   } // for
 
+  //*test si quete réussi
+  if(win_quete[0] && win_quete[1] && win_quete[2] && win_quete[3] && win_quete[4]){
+    num_Quetes++;
+    for (int i=0; i<5; i++) win_quete[i] = false;
+    aff_win();
+    ////for(i=0; i<10; i++) t[i] = t[i]+1;
+  }
 }
