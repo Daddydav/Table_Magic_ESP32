@@ -4,6 +4,7 @@
 #define I2C_SDA 14
 #define I2C_SCL 13
 
+/*
 #define RD_1 1  //PA1
 #define GN_1 2  //PA2
 #define BE_1 3  //PA3
@@ -19,11 +20,21 @@
 #define RD_5 13 //PB5
 #define GN_5 14 //PB6
 #define BE_5 15 //PB7
+*/
+
+//Structure
+struct Quete {
+	bool    rune[5];
+	uint8_t sort[5][4];
+};
+
+Quete Quetes[5];
 
 int RD[] = {1,4,7,10,13}; //PA1,PA4,PA7,PB2,PB5
 int GN[] = {2,5,8,11,14}; //PA2,PA5,PB0,PB3,PB6
 int BE[] = {3,6,9,12,15}; //PA3,PA6,PB1,PB4,PB7
 
+uint8_t  DUMY[] =       {0x00,0x00,0x00,0x00};
 uint8_t  FEU[] =        {0x74,0x16,0xC8,0x87}; //1
 uint8_t  AIR[] =        {0x74,0x0B,0x8B,0x87}; //2
 uint8_t  EAU[] =        {0x74,0x01,0xCA,0x87}; //3
