@@ -22,7 +22,7 @@ MFRC522DriverPinSimple ss1_pin(5), ss2_pin(25), ss3_pin(26), ss4_pin(27), ss5_pi
 
 MFRC522DriverSPI driver_1{ss1_pin}, driver_2{ss2_pin}, driver_3{ss3_pin}, driver_4{ss4_pin}, driver_5{ss5_pin}; //Create SPI driver.
 
-MFRC522 readers[]{driver_1};   //, driver_2 Create MFRC522 instance.
+MFRC522 readers[]{driver_1, driver_2, driver_3, driver_4, driver_5};   // Create MFRC522 instance.
 uint8_t num_rune = 0, num_Quetes = 0;
 
 void aff_win(){
@@ -169,4 +169,5 @@ void loop()
     aff_win();
     ////for(i=0; i<10; i++) t[i] = t[i]+1;
   }
+  delay(1000);
 }
