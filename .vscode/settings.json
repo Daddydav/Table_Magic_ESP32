@@ -1,3 +1,4 @@
 {
-    "C_Cpp.errorSquiggles": "disabled"
+    "C_Cpp.errorSquiggles": "disabled",
+    "cmake.sourceDirectory": "C:/Users/David/Documents/PlatformIO/Projects/Table_Magic_ESP32/lib/MCP23017_RT"
 }
