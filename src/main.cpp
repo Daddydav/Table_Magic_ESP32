@@ -18,12 +18,12 @@ MCP23017 MCP(MCP23017_ADR, &I2CD);  //* Adresse module ext
 ////int32_t test_card;
 bool win_quete[] = {false,false,false,false,false};
 ////uint8_t uid[5][4]; // Array to store UID returned by RC522
-MFRC522DriverPinSimple ss1_pin(5), ss2_pin(5), ss3_pin(13), ss4_pin(18), ss5_pin(25); // Configurable, see typical pin layout above.
+MFRC522DriverPinSimple ss1_pin(5), ss2_pin(25), ss3_pin(26), ss4_pin(27), ss5_pin(33); // Configurable, see typical pin layout above.
 
 MFRC522DriverSPI driver_1{ss1_pin}, driver_2{ss2_pin}, driver_3{ss3_pin}, driver_4{ss4_pin}, driver_5{ss5_pin}; //Create SPI driver.
 
-MFRC522 readers[]{driver_1};   //, driver_2 Create MFRC522 instance.
-uint8_t num_rune = 0, num_Quetes = 0;
+MFRC522 readers[]{driver_1, driver_2, driver_3, driver_4, driver_5};   // Create MFRC522 instance.
+uint8_t num_rune = 0, num_Quetes = 0, time_delay- = 100;
 
 void aff_win(){
   for (int i=0; i<5; i++){
@@ -31,35 +31,35 @@ void aff_win(){
     MCP.write1(GN[i], LOW);
     MCP.write1(BE[i], LOW);
   }
-  delay(100);
+  delay(time_delay);
   for (int i=0; i<5; i++){
     MCP.write1(GN[i], HIGH);
   }
-  delay(100);
+  delay(time_delay);
   for (int i=0; i<5; i++){
     MCP.write1(BE[i], HIGH);
   }
-  delay(100);
+  delay(time_delay);
   for (int i=0; i<5; i++){
     MCP.write1(GN[i], LOW);
   }
-  delay(100);
+  delay(time_delay);
   for (int i=0; i<5; i++){
     MCP.write1(RD[i], HIGH);
   }
-  delay(100);
+  delay(time_delay);
   for (int i=0; i<5; i++){
     MCP.write1(BE[i], LOW);
   }
-  delay(100);
+  delay(time_delay);
   for (int i=0; i<5; i++){
     MCP.write1(GN[i], HIGH);
   }
-  delay(100);
+  delay(time_delay);
   for (int i=0; i<5; i++){
     MCP.write1(RD[i], LOW);
   }
-  delay(100);
+  delay(time_delay);
 }
 
 void setup()
