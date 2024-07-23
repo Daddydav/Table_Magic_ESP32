@@ -23,7 +23,7 @@ MFRC522DriverPinSimple ss1_pin(5), ss2_pin(25), ss3_pin(26), ss4_pin(27), ss5_pi
 MFRC522DriverSPI driver_1{ss1_pin}, driver_2{ss2_pin}, driver_3{ss3_pin}, driver_4{ss4_pin}, driver_5{ss5_pin}; //Create SPI driver.
 
 MFRC522 readers[]{driver_1, driver_2, driver_3, driver_4, driver_5};   // Create MFRC522 instance.
-uint8_t num_rune = 0, num_Quetes = 0;
+uint8_t num_rune = 0, num_Quetes = 0, time_delay = 100;
 
 void aff_win(){
   for (int i=0; i<5; i++){
@@ -31,35 +31,35 @@ void aff_win(){
     MCP.write1(GN[i], LOW);
     MCP.write1(BE[i], LOW);
   }
-  delay(100);
+  delay(time_delay);
   for (int i=0; i<5; i++){
     MCP.write1(GN[i], HIGH);
   }
-  delay(100);
+  delay(time_delay);
   for (int i=0; i<5; i++){
     MCP.write1(BE[i], HIGH);
   }
-  delay(100);
+  delay(time_delay);
   for (int i=0; i<5; i++){
     MCP.write1(GN[i], LOW);
   }
-  delay(100);
+  delay(time_delay);
   for (int i=0; i<5; i++){
     MCP.write1(RD[i], HIGH);
   }
-  delay(100);
+  delay(time_delay);
   for (int i=0; i<5; i++){
     MCP.write1(BE[i], LOW);
   }
-  delay(100);
+  delay(time_delay);
   for (int i=0; i<5; i++){
     MCP.write1(GN[i], HIGH);
   }
-  delay(100);
+  delay(time_delay);
   for (int i=0; i<5; i++){
     MCP.write1(RD[i], LOW);
   }
-  delay(100);
+  delay(time_delay);
 }
 
 void setup()
@@ -79,6 +79,7 @@ void setup()
   ////MCP.write16(1);
   for (MFRC522 reader : readers) {
     reader.PCD_Init(); //* Init each MFRC522 card.
+    delay(100);
     Serial.print(F("Reader "));
     num_rune++;
     Serial.print(num_rune);
@@ -144,7 +145,7 @@ void loop()
       
       else{
         if(Quetes[num_Quetes].rune[num_rune]){
-          Serial.println("NO card");
+          //Serial.println("NO card");
           MCP.write1(RD[num_rune], LOW);
           MCP.write1(GN[num_rune], LOW);
           MCP.write1(BE[num_rune], HIGH);
