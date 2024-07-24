@@ -79,12 +79,12 @@ void setup()
   ////MCP.write16(1);
   for (MFRC522 reader : readers) {
     reader.PCD_Init(); //* Init each MFRC522 card.
-    delay(100);
     Serial.print(F("Reader "));
     num_rune++;
     Serial.print(num_rune);
     Serial.print(F(": "));
     MFRC522Debug::PCD_DumpVersionToSerial(reader, Serial);
+    delay(100);    
   }
   init_quetes();
 }
