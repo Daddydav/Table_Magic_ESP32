@@ -2,7 +2,7 @@
 #define MCP23017_ADR 0x20
 #define I2C_Freq 400000
 #define I2C_SDA 14
-#define I2C_SCL 32
+#define I2C_SCL 15
 
 /*
 #define RD_1 1  //PA1
