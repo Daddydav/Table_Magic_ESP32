@@ -84,9 +84,12 @@ void setup()
     Serial.print(num_rune);
     Serial.print(F(": "));
     MFRC522Debug::PCD_DumpVersionToSerial(reader, Serial);
+    if(reader.PCD_GetVersion() == PCD_Version::Version_Unknown) {MCP.write1(RD[num_rune], HIGH);}
+    else {MCP.write1(GN[num_rune], HIGH);}
     delay(100);    
   }
   init_quetes();
+  delay(3000);
 }
 void loop()
 {
