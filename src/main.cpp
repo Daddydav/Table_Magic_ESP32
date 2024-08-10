@@ -11,6 +11,13 @@
 #include "header.h"
 #include "Quetes.h"
 
+//* Liaison vers RC522 :
+//*     RTS   ->  21
+//*     SDA voir plus bas
+//*     MOSI  ->  23
+//*     MISO  ->  19
+//*     SCK   ->  18
+
 TwoWire I2CD = TwoWire(0);
 MCP23017 MCP(MCP23017_ADR, &I2CD);  //* Adresse module ext
 
